@@ -1,5 +1,7 @@
 # The yaml-ostruct gem for Ruby
 
+[![Build Status](https://travis-ci.org/hex0cter/yaml-ostruct.svg?branch=master)](https://travis-ci.org/hex0cter/yaml-ostruct)
+
 yaml-ostruct is a ruby gem inspired by hashugar. It reads all the yaml files from
 a given directory, and build them into an OpenStruct. If there are several yaml
 files with the same name, the later will be merged into the earlier.
