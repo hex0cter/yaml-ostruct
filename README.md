@@ -1,5 +1,6 @@
 # The yaml-ostruct gem for Ruby
 
+[![Gem Version](https://badge.fury.io/rb/yaml-ostruct.svg)](https://badge.fury.io/rb/yaml-ostruct)
 [![Build Status](https://travis-ci.org/hex0cter/yaml-ostruct.svg?branch=master)](https://travis-ci.org/hex0cter/yaml-ostruct)
 [![Coverage Status](https://coveralls.io/repos/github/hex0cter/yaml-ostruct/badge.svg?branch=master)](https://coveralls.io/github/hex0cter/yaml-ostruct?branch=master)
 
