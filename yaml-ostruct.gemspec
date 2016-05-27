@@ -4,13 +4,13 @@ require 'yaml/version'
 Gem::Specification.new do |s|
   s.name        = 'yaml-ostruct'
   s.version     = YamlOstruct::VERSION
-  s.summary     = 'Read yaml files recursively from a given directory and return an OpenStruct retaining the path'
+  s.summary     = 'Read yaml files with path into an OpenStruct'
   s.description = 'Read yaml files recursively from a given directory and return an OpenStruct retaining the path'
   s.authors     = ['Daniel Han']
   s.email       = 'hex0cter@gmail.com'
   s.homepage    = 'https://github.com/hex0cter/yaml-ostruct'
   s.license     = 'MIT'
-  s.files         = Dir['lib/yaml/ostruct']
+  s.files         = Dir['lib/**/*']
   s.required_ruby_version = '>= 1.9.3'
   s.require_paths = ['lib']
 

@@ -46,6 +46,12 @@ config/fox.yaml
 config/asia/china/people.yaml
 
 ```yaml
+    language: chinese
+```
+
+config/asia/people.yaml
+
+```yaml
     language: english
 ```
 
