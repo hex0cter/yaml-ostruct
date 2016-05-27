@@ -1,6 +1,6 @@
 require 'yaml/yaml_ostruct_impl'
 
-# YamlSugar module
+# YamlOstruct module
 module YamlOstruct
   attr_reader :config
 

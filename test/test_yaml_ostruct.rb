@@ -14,12 +14,7 @@ class TestYamlOstruct < Minitest::Test
 
   def test_people
     assert YamlOstruct.asia.china.people.language == 'chinese'
-    assert YamlOstruct.people.language == 'english'
-  end
-
-  def test_consumer
-    assert YamlOstruct.consumer.language == 'english'
-    assert YamlOstruct.consumer.hobbies.balls == 'tennis'
+    assert YamlOstruct.asia.people.language == 'english'
   end
 
   def test_dynamic_attr
@@ -28,8 +23,5 @@ class TestYamlOstruct < Minitest::Test
 
     YamlOstruct.attr = :foo
     assert YamlOstruct.attr == :foo
-
-    YamlOstruct.set(:attr, :bar)
-    assert YamlOstruct.attr == :bar
   end
 end

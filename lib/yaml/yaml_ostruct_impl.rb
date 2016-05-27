@@ -4,7 +4,7 @@ require 'ostruct'
 require 'hashugar'
 
 module YamlOstruct
-  # SugarImpl class
+  # YamlOstructImpl class
   class YamlOstructImpl
     attr_reader :config
     extend Gem::Deprecate
@@ -25,10 +25,6 @@ module YamlOstruct
       end
     end
 
-    def set(attr, value)
-      @config.send("#{attr}=", value)
-    end
-
     def load(dir)
       fail "Parameter #{File.join(Dir.pwd, dir)} is not a valid directory" unless File.directory? dir
       load_recursively(dir, @config)
@@ -39,7 +35,6 @@ module YamlOstruct
       files.each do |file_name|
         next if file_name.start_with?('.')
         if File.directory?("#{dir}/#{file_name}")
-          puts "#{file_name} is a directory"
           new_config = OpenStruct.new
           config.send("#{file_name}=", load_recursively("#{dir}/#{file_name}", new_config))
         end
@@ -47,7 +42,7 @@ module YamlOstruct
         extension = File.extname(file_name)
         next unless extension == '.yml' or extension == '.yaml'
         new_config = YAML.load_file("#{dir}/#{file_name}")
-        config.send("#{File.basename(file_name, extension)}=", new_config.to_hashugar) # remove yaml postfix
+        config.send("#{File.basename(file_name, extension)}=", new_config.to_hashugar)
       end
       config
     end
