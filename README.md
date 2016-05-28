@@ -5,11 +5,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/hex0cter/yaml-ostruct/badge.svg?branch=master)](https://coveralls.io/github/hex0cter/yaml-ostruct?branch=master)
 
 yaml-ostruct is a ruby gem inspired by hashugar. It reads all the yaml files from
-a given directory, and build them into an OpenStruct. If there are several yaml
-files with the same name, the later will be merged into the earlier.
+a given directory, and build them into an OpenStruct.
 
-The major difference between yaml-ostruct and its twin sister gem yaml-ostruct is that,
-yaml-ostruct takes the path of the yaml file into part of its structure, but yaml-ostruct
+The major difference between yaml-ostruct and its twin sister gem yaml-sugar is that,
+yaml-ostruct takes the path of the yaml file into part of its structure, but yaml-sugar
 ignore the directory structure and only focus on the yaml file itself.
 
 ## How to use?
