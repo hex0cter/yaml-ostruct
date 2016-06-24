@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_dependency 'hashugar', '~> 1.0'
+  s.add_dependency 'deep_merge', '~> 1.0'
 end

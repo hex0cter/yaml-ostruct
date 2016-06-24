@@ -2,6 +2,7 @@ require 'find'
 require 'yaml'
 require 'ostruct'
 require 'hashugar'
+require 'deep_merge'
 
 module YamlOstruct
   # YamlOstructImpl class
@@ -25,9 +26,35 @@ module YamlOstruct
       end
     end
 
-    def load(dir)
+    def load(dir, args = {})
       fail "Parameter #{File.join(Dir.pwd, dir)} is not a valid directory" unless File.directory? dir
-      load_recursively(dir, @config)
+
+      if args[:omit_path]
+        load_omit_path(dir, @config, args)
+      else
+        load_recursively(dir, @config)
+      end
+    end
+
+    def load_omit_path(dir, config, args)
+      deep_merge = args.fetch :deep_merge, false
+      fail "Parameter #{File.join(Dir.pwd, dir)} is not a valid directory" unless File.directory? dir
+
+      Find.find(dir) do |yaml_file|
+        next unless yaml_file =~ /.*\.yml$/ or yaml_file =~ /.*\.yaml$/
+        new_config = YAML.load_file(yaml_file)
+
+        attr_name = File.basename(yaml_file, File.extname(yaml_file)).to_sym
+        if config.respond_to?(attr_name)
+          old_config = config.send(attr_name).to_hash
+          new_config = if deep_merge
+                         new_config.deep_merge(old_config)
+                       else
+                         old_config.merge(new_config)
+                       end
+        end
+        config.send("#{attr_name}=", new_config.to_hashugar)
+      end
     end
 
     def load_recursively(dir, config)

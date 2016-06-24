@@ -17,8 +17,8 @@ module YamlOstruct
     @config.send method_sym, *args
   end
 
-  def self.load(dir)
+  def self.load(dir, args = {})
     @config ||= YamlOstructImpl.new
-    @config.load(dir)
+    @config.load(dir, args)
   end
 end

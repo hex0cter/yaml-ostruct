@@ -7,9 +7,11 @@
 yaml-ostruct is a ruby gem inspired by hashugar. It reads all the yaml files from
 a given directory, and build them into an OpenStruct.
 
-The major difference between yaml-ostruct and its twin sister gem yaml-sugar is that,
-yaml-ostruct takes the path of the yaml file into part of its structure, but yaml-sugar
-ignore the directory structure and only focus on the yaml file itself.
+The gem works in two modes, omitting the directories where the yaml file is located,
+or having it as part of the structure. By default the later is used. If you want to
+skip the directories, use option omit_path: true in the load method. In that case,
+files with the same name but in different directories will be merged. Use deep_merge:
+true for a deep merge.
 
 ## How to use?
 
@@ -62,6 +64,16 @@ In your project,
   assert YamlOstruct.fox.color.is.brown
   assert YamlOstruct.asia.china.people.language == 'chinese'
   assert YamlOstruct.asia.people.language == 'english'
+```
+
+If you want to omit the path,
+
+```ruby
+  YamlOstruct.load('config', omit_path: true)
+
+  assert YamlOstruct.fox.color.is.brown
+  assert YamlOstruct.people.language == 'chinese'
+  assert YamlOstruct.people.language == 'english'
 ```
 
 You can also add a dynamic attribute on the fly like this:
