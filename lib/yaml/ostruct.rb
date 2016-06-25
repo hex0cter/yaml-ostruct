@@ -4,8 +4,8 @@ require 'yaml/yaml_ostruct_impl'
 module YamlOstruct
   attr_reader :config
 
-  def self.new
-    YamlOstructImpl.new
+  def self.new(args = {})
+    YamlOstructImpl.new args
   end
 
   def self.clear
@@ -17,8 +17,13 @@ module YamlOstruct
     @config.send method_sym, *args
   end
 
-  def self.load(dir, args = {})
+  def self.load(dir)
     @config ||= YamlOstructImpl.new
-    @config.load(dir, args)
+    @config.load(dir)
+  end
+
+  def self.configure
+    @config ||= YamlOstructImpl.new
+    yield @config
   end
 end

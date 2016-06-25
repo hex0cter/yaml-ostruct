@@ -8,10 +8,13 @@ module YamlOstruct
   # YamlOstructImpl class
   class YamlOstructImpl
     attr_reader :config
-    extend Gem::Deprecate
+    attr_accessor :omit_path
+    attr_accessor :deep_merge
 
-    def initialize
+    def initialize(args = {})
       @config = OpenStruct.new
+      @omit_path = args.fetch :omit_path, false
+      @deep_merge = args.fetch :deep_merge, false
     end
 
     def method_missing(method_sym, *args)
@@ -26,18 +29,17 @@ module YamlOstruct
       end
     end
 
-    def load(dir, args = {})
+    def load(dir)
       fail "Parameter #{File.join(Dir.pwd, dir)} is not a valid directory" unless File.directory? dir
 
-      if args[:omit_path]
-        load_omit_path(dir, @config, args)
+      if @omit_path
+        load_omit_path(dir, @config)
       else
-        load_recursively(dir, @config)
+        load_recursively_with_path(dir, @config)
       end
     end
 
-    def load_omit_path(dir, config, args)
-      deep_merge = args.fetch :deep_merge, false
+    def load_omit_path(dir, config)
       fail "Parameter #{File.join(Dir.pwd, dir)} is not a valid directory" unless File.directory? dir
 
       Find.find(dir) do |yaml_file|
@@ -47,7 +49,7 @@ module YamlOstruct
         attr_name = File.basename(yaml_file, File.extname(yaml_file)).to_sym
         if config.respond_to?(attr_name)
           old_config = config.send(attr_name).to_hash
-          new_config = if deep_merge
+          new_config = if @deep_merge
                          new_config.deep_merge(old_config)
                        else
                          old_config.merge(new_config)
@@ -57,13 +59,13 @@ module YamlOstruct
       end
     end
 
-    def load_recursively(dir, config)
+    def load_recursively_with_path(dir, config)
       files = Dir.entries(dir)
       files.each do |file_name|
         next if file_name.start_with?('.')
         if File.directory?("#{dir}/#{file_name}")
           new_config = OpenStruct.new
-          config.send("#{file_name}=", load_recursively("#{dir}/#{file_name}", new_config))
+          config.send("#{file_name}=", load_recursively_with_path("#{dir}/#{file_name}", new_config))
         end
 
         extension = File.extname(file_name)

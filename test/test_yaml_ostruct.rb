@@ -4,6 +4,7 @@ require 'minitest/autorun'
 
 class TestYamlOstruct < Minitest::Test
   def setup
+    YamlOstruct.clear
     YamlOstruct.load('config')
   end
 

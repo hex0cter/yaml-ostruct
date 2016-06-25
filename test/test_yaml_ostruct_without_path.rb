@@ -4,7 +4,12 @@ require 'minitest/autorun'
 
 class TestYamlOstructWithoutPath < Minitest::Test
   def setup
-    YamlOstruct.load('config', omit_path: true)
+    YamlOstruct.clear
+    YamlOstruct.configure do |configure|
+      configure.omit_path = true
+    end
+
+    YamlOstruct.load('config')
   end
 
   def test_fox
@@ -33,6 +38,10 @@ class TestYamlOstructWithoutPath < Minitest::Test
   end
 
   def test_overwriting
+    YamlOstruct.configure do |configure|
+      configure.deep_merge = false
+    end
+
     YamlOstruct.load('config/overwritting/animal')
     YamlOstruct.load('config/overwritting/bird')
 
@@ -41,8 +50,12 @@ class TestYamlOstructWithoutPath < Minitest::Test
   end
 
   def test_merging
-    YamlOstruct.load('config/overwritting/animal', omit_path: true)
-    YamlOstruct.load('config/overwritting/bird', omit_path: true, deep_merge: true)
+    YamlOstruct.configure do |configure|
+      configure.deep_merge = true
+    end
+
+    YamlOstruct.load('config/overwritting/animal')
+    YamlOstruct.load('config/overwritting/bird')
 
     assert YamlOstruct.setting.type == 'bird'
     assert YamlOstruct.setting.list == %w(seagull pigeon monkey sheep)
