@@ -2,7 +2,7 @@ require_relative 'paths'
 require 'yaml/ostruct'
 require 'minitest/autorun'
 
-class TestYamlOstruct < Minitest::Test
+class TestYamlOstructWithPath < Minitest::Test
   def setup
     YamlOstruct.clear
     YamlOstruct.load('config')
