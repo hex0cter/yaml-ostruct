@@ -17,12 +17,16 @@ module YamlOstruct
       @deep_merge = args.fetch :deep_merge, false
     end
 
+    def delete(key)
+      @config.delete_field(key)
+    end
+
     def method_missing(method_sym, *args)
       if @config.respond_to? method_sym
         @config.send method_sym, *args
       elsif method_sym.to_s.end_with?('=')
         @config.send method_sym, *args
-      elsif method_sym == :clear
+      elsif method_sym == :clear || method_sym == :delete_all
         @config = OpenStruct.new
       else
         nil

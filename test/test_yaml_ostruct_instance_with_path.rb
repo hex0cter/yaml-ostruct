@@ -24,8 +24,24 @@ class TestYamlOstructInstanceWithPath < Minitest::Test
     yaml_ostruct.attr = :foo
     assert yaml_ostruct.attr == :foo
 
-    yaml_ostruct.clear
+    yaml_ostruct.delete(:attr)
     assert yaml_ostruct.attr.nil?
+  end
+
+  def test_delete_all_attr
+    yaml_ostruct = YamlOstruct.new
+    assert yaml_ostruct.attr1.nil?
+    assert yaml_ostruct.attr2.nil?
+
+    yaml_ostruct.attr1 = :foo
+    assert yaml_ostruct.attr1 == :foo
+
+    yaml_ostruct.attr2 = :bar
+    assert yaml_ostruct.attr2 == :bar
+
+    yaml_ostruct.delete_all
+    assert yaml_ostruct.attr1.nil?
+    assert yaml_ostruct.attr2.nil?
   end
 
   def test_multiple_instances

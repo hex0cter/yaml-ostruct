@@ -99,10 +99,21 @@ You can also add a dynamic attribute on the fly like this:
   assert YamlOstruct.attr == :foo
 ```
 
+If you wanna remove an attribute, you can call
+
+```ruby
+  YamlOstruct.delete(:attr)
+```
+
 If you wanna clear all the previous settings, just call
 
 ```ruby
   YamlOstruct.clear
+```
+
+Or
+```ruby
+  YamlOstruct.delete_all
 ```
 
 Sometimes you might want to have multiple instances of YamlOstruct, which are independent

@@ -12,6 +12,10 @@ module YamlOstruct
     @config = nil
   end
 
+  class << self
+    alias_method :delete_all, :clear
+  end
+
   def self.method_missing(method_sym, *args)
     @config ||= YamlOstructImpl.new
     @config.send method_sym, *args
