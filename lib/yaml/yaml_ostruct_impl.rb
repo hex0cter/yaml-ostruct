@@ -51,15 +51,7 @@ module YamlOstruct
       Find.find(dir) do |yaml_file|
         next unless yaml_file =~ /.*\.yml$/ or yaml_file =~ /.*\.yaml$/
 
-        new_config = begin
-          YAML.load_file(yaml_file)
-        rescue StandardError => e
-          if @skip_error
-            nil
-          else
-            raise e
-          end
-        end
+        new_config = load_yaml(yaml_file)
 
         attr_name = File.basename(yaml_file, File.extname(yaml_file)).to_sym
         if config.respond_to?(attr_name)
@@ -86,18 +78,21 @@ module YamlOstruct
         extension = File.extname(file_name)
         next unless extension == '.yml' or extension == '.yaml'
 
-        new_config = begin
-          YAML.load_file("#{dir}/#{file_name}")
-        rescue StandardError => e
-          if @skip_error
-            nil
-          else
-            raise e
-          end
-        end
+        new_config = load_yaml("#{dir}/#{file_name}")
+
         config.send("#{File.basename(file_name, extension)}=", new_config.to_hashugar)
       end
       config
+    end
+
+    def load_yaml(file_name)
+      YAML.load_file(file_name)
+    rescue StandardError => e
+      if @skip_error
+        nil
+      else
+        raise e
+      end
     end
   end
 end
