@@ -28,13 +28,13 @@ class TestYamlOstructWithoutPath < Minitest::Test
 
   def test_dynamic_attr
     YamlOstruct.clear
-    assert YamlOstruct.attr.nil?
+    assert YamlOstruct.bob.nil?
 
-    YamlOstruct.attr = :foo
-    assert YamlOstruct.attr == :foo
+    YamlOstruct.bob = :foo
+    assert YamlOstruct.bob == :foo
 
-    YamlOstruct.attr = :bar
-    assert YamlOstruct.attr == :bar
+    YamlOstruct.bob = :bar
+    assert YamlOstruct.bob == :bar
   end
 
   def test_overwriting

@@ -20,13 +20,13 @@ class TestYamlOstructWithPath < Minitest::Test
 
   def test_dynamic_attr
     YamlOstruct.clear
-    assert YamlOstruct.attr.nil?
+    assert YamlOstruct.john.nil?
 
-    YamlOstruct.attr = :foo
-    assert YamlOstruct.attr == :foo
+    YamlOstruct.john = :foo
+    assert YamlOstruct.john == :foo
 
-    YamlOstruct.delete(:attr)
-    assert YamlOstruct.attr.nil?
+    YamlOstruct.delete(:john)
+    assert YamlOstruct.john.nil?
   end
 
   def test_delete_all_attr
