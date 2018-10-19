@@ -68,6 +68,7 @@ module YamlOstruct
 
     def load_recursively_with_path(dir, config)
       files = Dir.entries(dir)
+
       files.each do |file_name|
         next if file_name.start_with?('.')
         if File.directory?("#{dir}/#{file_name}")
@@ -82,17 +83,15 @@ module YamlOstruct
 
         config.send("#{File.basename(file_name, extension)}=", new_config.to_hashugar)
       end
+
       config
     end
 
     def load_yaml(file_name)
       YAML.load_file(file_name)
     rescue StandardError => e
-      if @skip_error
-        nil
-      else
-        raise e
-      end
+      raise e unless @skip_error
+      nil
     end
   end
 end

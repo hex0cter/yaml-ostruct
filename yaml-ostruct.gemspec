@@ -1,5 +1,5 @@
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
-require 'yaml/version'
+require 'version'
 
 Gem::Specification.new do |s|
   s.name        = 'yaml-ostruct'
