@@ -10,11 +10,13 @@ module YamlOstruct
     attr_reader :config
     attr_accessor :omit_path
     attr_accessor :deep_merge
+    attr_accessor :skip_error
 
     def initialize(args = {})
       @config = OpenStruct.new
       @omit_path = args.fetch :omit_path, false
       @deep_merge = args.fetch :deep_merge, false
+      @skip_error = args.fetch :skip_error, false
     end
 
     def delete(key)
@@ -48,7 +50,16 @@ module YamlOstruct
 
       Find.find(dir) do |yaml_file|
         next unless yaml_file =~ /.*\.yml$/ or yaml_file =~ /.*\.yaml$/
-        new_config = YAML.load_file(yaml_file)
+
+        new_config = begin
+          YAML.load_file(yaml_file)
+        rescue StandardError => e
+          if @skip_error
+            nil
+          else
+            raise e
+          end
+        end
 
         attr_name = File.basename(yaml_file, File.extname(yaml_file)).to_sym
         if config.respond_to?(attr_name)
@@ -74,7 +85,16 @@ module YamlOstruct
 
         extension = File.extname(file_name)
         next unless extension == '.yml' or extension == '.yaml'
-        new_config = YAML.load_file("#{dir}/#{file_name}")
+
+        new_config = begin
+          YAML.load_file("#{dir}/#{file_name}")
+        rescue StandardError => e
+          if @skip_error
+            nil
+          else
+            raise e
+          end
+        end
         config.send("#{File.basename(file_name, extension)}=", new_config.to_hashugar)
       end
       config
